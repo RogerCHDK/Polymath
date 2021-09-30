@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EmpresaRequest;
 use App\Http\Resources\EmpresaCollection;
 use App\Http\Resources\EmpresaResource;
 use App\Models\Empresa;
@@ -26,11 +27,12 @@ class EmpresaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EmpresaRequest $request)
     {
+        $request->validated();
         $empresa = Empresa::create($request->all());
         return response()->json([
-            'message' => 'Ok'
+            'message' => 'Ok empresa creada'
         ], 201);
     }
 
