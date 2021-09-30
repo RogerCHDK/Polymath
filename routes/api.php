@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\EmpresaController;
+use App\Http\Controllers\LoginController;
 use App\Models\Empleado;
 use App\Models\Empresa;
 use Illuminate\Http\Request;
@@ -23,9 +24,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::prefix('v1')->group(function () {
-    Route::apiResource('empresa', EmpresaController::class);
+    Route::apiResource('empresa', EmpresaController::class)->middleware('auth:sanctum');;
 });
 
 Route::prefix('v1')->group(function () {
-    Route::apiResource('empleado', EmpleadoController::class);
+    Route::apiResource('empleado', EmpleadoController::class)->middleware('auth:sanctum');;
 });
+
+Route::post('login',[LoginController::class, 'login']);
