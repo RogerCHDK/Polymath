@@ -15,6 +15,7 @@ class EmpresaResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'nombre' => $this->nombre,
             'email' => $this->email,
             'logotipo' => $this->logotipo ,

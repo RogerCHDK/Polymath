@@ -8,6 +8,8 @@ use App\Http\Resources\EmpresaCollection;
 use App\Http\Resources\EmpresaResource;
 use App\Models\Empresa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class EmpresaController extends Controller
 {
@@ -31,7 +33,21 @@ class EmpresaController extends Controller
     public function store(EmpresaPostRequest $request)
     {
         $request->validated();
-        $empresa = Empresa::create($request->all());
+        $logotipo = $request->file('logotipo'); 
+
+        if ($logotipo) {
+            $logotipo_nombre = time().'_'.$logotipo->getClientOriginalName();
+            Storage::disk('public')->put($logotipo_nombre, File::get($logotipo));
+            $request->logotipo = $logotipo_nombre;
+            }
+
+        $empresa = Empresa::create([
+            'nombre' => $request->nombre,
+            'email' => $request->email,
+            'logotipo' => $request->logotipo,
+            'sitio_web' => $request->sitio_web
+        ]);
+
         return response()->json([
             'message' => 'Ok empresa creada'
         ], 201);
@@ -58,7 +74,22 @@ class EmpresaController extends Controller
     public function update(EmpresaUpdateRequest $request, Empresa $empresa)
     {
         $request->validated();
-        $empresa->update($request->all());
+        $logotipo = $request->file('logotipo'); 
+        if ($logotipo) {
+            $logotipo_nombre = time().'_'.$logotipo->getClientOriginalName();
+            //Save the new logotipo
+            Storage::disk('public')->put($logotipo_nombre, File::get($logotipo));
+            //Delete the previuos logotipo
+            Storage::disk('public')->delete($empresa->logotipo);
+            $request->logotipo = $logotipo_nombre;
+            }
+
+        $empresa->nombre = ($request->nombre) ? $request->nombre : $empresa->nombre;
+        $empresa->email = ($request->email) ? $request->email : $empresa->email;
+        $empresa->logotipo = ($request->logotipo) ? $request->logotipo : $empresa->logotipo;
+        $empresa->sitio_web = ($request->sitio_web) ? $request->sitio_web : $empresa->sitio_web;
+        $empresa->save();
+        
         return response()->json([
             'message' => "Empresa actualizada correctamente"
         ], 200);
@@ -72,6 +103,10 @@ class EmpresaController extends Controller
      */
     public function destroy(Empresa $empresa)
     {
+        // Delete logotipo de la empres si existe 
+        if ($empresa->logotipo) {
+            Storage::disk('public')->delete($empresa->logotipo);
+        }
         $empresa->delete();
         return response()->json([
             'message' => "Empresa eliminada correctamente"

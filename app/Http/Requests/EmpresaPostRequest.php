@@ -26,7 +26,7 @@ class EmpresaPostRequest extends FormRequest
         return [
             'nombre' => 'required|alpha' ,
             'email' => 'required|email|unique:App\Models\Empresa,email' ,
-            'logotipo' => 'nullable|string' ,
+            'logotipo' => 'nullable|file|mimes:jpg,bmp,png' ,
             'sitio_web' => 'nullable|string' ,
         ];
     }

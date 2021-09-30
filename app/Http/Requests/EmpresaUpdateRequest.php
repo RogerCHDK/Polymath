@@ -26,7 +26,7 @@ class EmpresaUpdateRequest extends FormRequest
         return [
             'nombre' => 'nullable|alpha' ,
             'email' => 'nullable|email|unique:App\Models\Empresa,email' ,
-            'logotipo' => 'nullable|string' ,
+            'logotipo' => 'nullable|file|mimes:jpg,bmp,png' ,
             'sitio_web' => 'nullable|string' ,
         ];
     }
