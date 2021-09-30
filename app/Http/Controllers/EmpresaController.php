@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\EmpresaRequest;
+use App\Http\Requests\EmpresaPostRequest;
+use App\Http\Requests\EmpresaUpdateRequest;
 use App\Http\Resources\EmpresaCollection;
 use App\Http\Resources\EmpresaResource;
 use App\Models\Empresa;
@@ -27,7 +28,7 @@ class EmpresaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(EmpresaRequest $request)
+    public function store(EmpresaPostRequest $request)
     {
         $request->validated();
         $empresa = Empresa::create($request->all());
@@ -54,8 +55,9 @@ class EmpresaController extends Controller
      * @param  \App\Models\Empresa  $empresa
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Empresa $empresa)
+    public function update(EmpresaUpdateRequest $request, Empresa $empresa)
     {
+        $request->validated();
         $empresa->update($request->all());
         return response()->json([
             'message' => "Empresa actualizada correctamente"

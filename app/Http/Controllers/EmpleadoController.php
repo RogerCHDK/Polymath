@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EmpleadoPostRequest;
+use App\Http\Requests\EmpleadoUpdateRequest;
 use App\Http\Resources\EmpleadoCollection;
 use App\Http\Resources\EmpleadoResource;
 use App\Models\Empleado;
@@ -26,8 +28,9 @@ class EmpleadoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EmpleadoPostRequest $request)
     {
+        $request->validated();
         $empleado = Empleado::create($request->all());
         return response()->json([
             'message' => 'Ok empleado creado'
@@ -52,8 +55,9 @@ class EmpleadoController extends Controller
      * @param  \App\Models\Empleado  $empleado
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Empleado $empleado)
+    public function update(EmpleadoUpdateRequest $request, Empleado $empleado)
     {
+        $request->validated();
         $empleado->update($request->all());
         return response()->json([
             'message' => "Empleado actualizado correctamente"
