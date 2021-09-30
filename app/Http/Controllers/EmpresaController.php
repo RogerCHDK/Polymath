@@ -25,7 +25,10 @@ class EmpresaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $empresa = Empresa::create($request->all());
+        return response()->json([
+            'message' => 'Ok'
+        ], 201);
     }
 
     /**
