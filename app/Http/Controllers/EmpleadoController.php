@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\EmpleadoCollection;
+use App\Http\Resources\EmpleadoResource;
 use App\Models\Empleado;
 use Illuminate\Http\Request;
 
@@ -14,7 +16,8 @@ class EmpleadoController extends Controller
      */
     public function index()
     {
-        //
+        $empleado = Empleado::all();
+        return new EmpleadoCollection($empleado);
     }
 
     /**
@@ -25,7 +28,10 @@ class EmpleadoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $empleado = Empleado::create($request->all());
+        return response()->json([
+            'message' => 'Ok empleado creado'
+        ], 201);
     }
 
     /**
@@ -36,7 +42,7 @@ class EmpleadoController extends Controller
      */
     public function show(Empleado $empleado)
     {
-        //
+        return new EmpleadoResource($empleado);
     }
 
     /**
@@ -48,7 +54,10 @@ class EmpleadoController extends Controller
      */
     public function update(Request $request, Empleado $empleado)
     {
-        //
+        $empleado->update($request->all());
+        return response()->json([
+            'message' => "Empleado actualizado correctamente"
+        ], 200);
     }
 
     /**
@@ -59,6 +68,9 @@ class EmpleadoController extends Controller
      */
     public function destroy(Empleado $empleado)
     {
-        //
+        $empleado->delete();
+        return response()->json([
+            'message' => "Empleado eliminado correctamente"
+        ], 204);
     }
 }
