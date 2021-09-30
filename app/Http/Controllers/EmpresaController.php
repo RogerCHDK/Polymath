@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\EmpresaCollection;
+use App\Http\Resources\EmpresaResource;
 use App\Models\Empresa;
 use Illuminate\Http\Request;
 
@@ -14,7 +16,8 @@ class EmpresaController extends Controller
      */
     public function index()
     {
-        //
+        $empresa = Empresa::all();
+        return new EmpresaCollection($empresa);
     }
 
     /**
@@ -39,7 +42,7 @@ class EmpresaController extends Controller
      */
     public function show(Empresa $empresa)
     {
-        //
+        return new EmpresaResource($empresa);
     }
 
     /**
@@ -51,7 +54,10 @@ class EmpresaController extends Controller
      */
     public function update(Request $request, Empresa $empresa)
     {
-        //
+        $empresa->update($request->all());
+        return response()->json([
+            'message' => "Empresa actualizada correctamente"
+        ], 200);
     }
 
     /**
@@ -62,6 +68,9 @@ class EmpresaController extends Controller
      */
     public function destroy(Empresa $empresa)
     {
-        //
+        $empresa->delete();
+        return response()->json([
+            'message' => "Empresa eliminada correctamente"
+        ], 204);
     }
 }
