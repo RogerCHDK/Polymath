@@ -20,7 +20,12 @@ class EmpleadoResource extends JsonResource
             'apellido' => $this->apellido,
             'email' => $this->email ,
             'telefono' => $this->telefono,
-            'company_id' => $this->company_id 
+            'company' => [
+                'nombre' => $this->empresa->nombre,
+                'email' => $this->empresa->email,
+                'logotipo' => $this->empresa->logotipo,
+                'sitio_web' => $this->empresa->sitio_web 
+            ]
         ];
     }
 }

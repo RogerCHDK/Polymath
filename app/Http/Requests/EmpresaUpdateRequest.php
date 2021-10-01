@@ -24,10 +24,10 @@ class EmpresaUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombre' => 'nullable|alpha' ,
-            'email' => 'nullable|email|unique:App\Models\Empresa,email' ,
-            'logotipo' => 'nullable|file|mimes:jpg,bmp,png' ,
-            'sitio_web' => 'nullable|string' ,
+            'nombre' => 'nullable|alpha',
+            'email' => 'nullable|email|unique:App\Models\Empresa,email',
+            'logotipo' => 'nullable|file|mimes:jpg,bmp,png|dimensions:min_width=100,min_height=100',
+            'sitio_web' => 'nullable|string',
         ];
     }
 
