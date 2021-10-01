@@ -18,7 +18,7 @@ class EmpleadoController extends Controller
      */
     public function index()
     {
-        $empleado = Empleado::all();
+        $empleado = Empleado::paginate(10);
         return new EmpleadoCollection($empleado);
     }
 

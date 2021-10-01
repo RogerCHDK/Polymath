@@ -20,7 +20,7 @@ class EmpresaController extends Controller
      */
     public function index()
     {
-        $empresa = Empresa::all();
+        $empresa = Empresa::paginate(10);
         return new EmpresaCollection($empresa);
     }
 
@@ -89,7 +89,7 @@ class EmpresaController extends Controller
         $empresa->logotipo = ($request->logotipo) ? $request->logotipo : $empresa->logotipo;
         $empresa->sitio_web = ($request->sitio_web) ? $request->sitio_web : $empresa->sitio_web;
         $empresa->save();
-        
+
         return response()->json([
             'message' => "Empresa actualizada correctamente"
         ], 200);
