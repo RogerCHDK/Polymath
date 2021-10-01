@@ -6,10 +6,12 @@ use App\Http\Requests\EmpresaPostRequest;
 use App\Http\Requests\EmpresaUpdateRequest;
 use App\Http\Resources\EmpresaCollection;
 use App\Http\Resources\EmpresaResource;
+use App\Mail\NewCompanyNotification;
 use App\Models\Empresa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 
 class EmpresaController extends Controller
 {
@@ -47,6 +49,15 @@ class EmpresaController extends Controller
             'logotipo' => $request->logotipo,
             'sitio_web' => $request->sitio_web
         ]);
+
+        if ($request->destinatario) {
+            $details = [
+                'title' => 'Confirmación de creación',
+                'body' => 'Se ha creado una nueva compañia dentro del sistema'
+            ];
+            Mail::to($request->destinatario)->send(new NewCompanyNotification($details));
+        }
+        
 
         return response()->json([
             'message' => 'Ok empresa creada'
