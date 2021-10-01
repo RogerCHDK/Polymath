@@ -18,7 +18,7 @@ class EmpresaResource extends JsonResource
             'id' => $this->id,
             'nombre' => $this->nombre,
             'email' => $this->email,
-            'logotipo' => $this->logotipo ,
+            'logotipo' => asset('storage/'.$this->logotipo) ,
             'sitio_web' => $this->sitio_web 
         ];
     }
