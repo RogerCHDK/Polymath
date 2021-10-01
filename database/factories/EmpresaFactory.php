@@ -21,8 +21,12 @@ class EmpresaFactory extends Factory
      */
     public function definition()
     {
-        return [
-            //
+        return [ 
+            'nombre' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'logotipo' => $this->faker->image(null, 640, 480),
+            'sitio_web' => $this->faker->url(), 
+            // 'destinatario' => $this->faker->name(),
         ];
     }
 }
