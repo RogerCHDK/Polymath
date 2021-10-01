@@ -23,7 +23,7 @@ class EmpleadoResource extends JsonResource
             'company' => [
                 'nombre' => $this->empresa->nombre,
                 'email' => $this->empresa->email,
-                'logotipo' => $this->empresa->logotipo,
+                'logotipo' => asset('storage/'.$this->empresa->logotipo),
                 'sitio_web' => $this->empresa->sitio_web 
             ]
         ];
